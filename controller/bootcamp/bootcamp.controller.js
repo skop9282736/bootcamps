@@ -1,8 +1,12 @@
+const Bootcamp = require('./../../models/Bootcamp');
+
 module.exports.findAllBootcamps = (req, res) => {
   res.status(200).json({ msg: 'create bootcamp', hello: req.hello });
 };
 
 module.exports.createBootcamp = (req, res) => {
+  console.log(req.body);
+
   res.status(200).json({ msg: 'create bootcamp' });
 };
 
