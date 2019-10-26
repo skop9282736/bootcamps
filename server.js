@@ -5,6 +5,7 @@ const { logger } = require('./middleware/logger.middleware');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
 var colors = require('colors');
+const errorHandler = require('./middleware/error');
 
 const app = express();
 
@@ -26,6 +27,9 @@ const port = process.env.PORT || 5000;
 
 // Routes
 app.use('/api/v1/bootcamps', bootcampRoutes);
+
+// middlware
+app.use(errorHandler);
 
 const server = app.listen(port, () =>
   console.log(`listening on http://localhost:${port}`.yellow.bold)

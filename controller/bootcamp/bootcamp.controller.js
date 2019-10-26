@@ -9,10 +9,7 @@ module.exports.findAllBootcamps = async (req, res) => {
       count: bootcamps.length
     });
   } catch (error) {
-    return res.status(400).send({
-      success: false,
-      msg: error.errmsg
-    });
+    next(error);
   }
 };
 
@@ -24,10 +21,7 @@ module.exports.createBootcamp = async (req, res) => {
       data: bootcamp
     });
   } catch (error) {
-    return res.status(400).send({
-      success: false,
-      msg: error.errmsg
-    });
+    next(error);
   }
 };
 
@@ -47,9 +41,7 @@ module.exports.updateBootcamp = async (req, res) => {
       data: bootcamp
     });
   } catch (error) {
-    return res.status(400).send({
-      success: false
-    });
+    next(error);
   }
 };
 
@@ -63,27 +55,21 @@ module.exports.deleteBootcamp = async (req, res) => {
     }
     return res.status(201).json({ success: true });
   } catch (error) {
-    return res.status(400).send({
-      success: false
-    });
+    next(error);
   }
 };
 
-module.exports.findOneBootcamp = async (req, res) => {
+module.exports.findOneBootcamp = async (req, res, next) => {
   try {
     const bootcamp = await Bootcamp.findById(req.params.id);
     if (!bootcamp) {
-      return res.status(400).send({
-        success: false
-      });
+      next(err);
     }
     return res.status(201).json({
       success: true,
       data: bootcamp
     });
   } catch (error) {
-    return res.status(400).send({
-      success: false
-    });
+    next(error);
   }
 };
