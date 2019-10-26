@@ -8,6 +8,9 @@ var colors = require('colors');
 
 const app = express();
 
+// body parse
+app.use(express.json());
+
 // load env file
 dotenv.config({ path: './config/config.env' });
 
