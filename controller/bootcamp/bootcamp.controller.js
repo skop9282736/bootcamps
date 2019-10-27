@@ -13,7 +13,7 @@ module.exports.findAllBootcamps = async (req, res) => {
   }
 };
 
-module.exports.createBootcamp = async (req, res) => {
+module.exports.createBootcamp = async (req, res, next) => {
   try {
     const bootcamp = await Bootcamp.create(req.body);
     return res.status(201).json({
@@ -25,7 +25,7 @@ module.exports.createBootcamp = async (req, res) => {
   }
 };
 
-module.exports.updateBootcamp = async (req, res) => {
+module.exports.updateBootcamp = async (req, res, next) => {
   try {
     const bootcamp = await Bootcamp.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -45,7 +45,7 @@ module.exports.updateBootcamp = async (req, res) => {
   }
 };
 
-module.exports.deleteBootcamp = async (req, res) => {
+module.exports.deleteBootcamp = async (req, res, next) => {
   try {
     const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
     if (!bootcamp) {
