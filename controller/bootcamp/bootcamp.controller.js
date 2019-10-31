@@ -2,12 +2,22 @@ const Bootcamp = require('./../../models/Bootcamp');
 const asyncHandler = require('./../../middleware/asyncHandler.middleware');
 const geocoder = require('./../../utils/geocoder');
 
+// @desc Get bootcamps with or withoput filtering
+// @route GET api/v1/bootcamps
+// @route GET api/v1/bootcamps?careers[in]=business&location.city=boston&averageCost[lte]=100
 module.exports.findAllBootcamps = asyncHandler(async (req, res) => {
-  const bootcamps = await Bootcamp.find();
+  let query;
+
+  let queryStr = JSON.stringify(req.query);
+  queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, math => `$${math}`);
+  query = Bootcamp.find(JSON.parse(queryStr));
+
+  const bootcamps = await query;
+
   return res.status(201).json({
     success: true,
-    data: bootcamps,
-    count: bootcamps.length
+    count: bootcamps.length,
+    data: bootcamps
   });
 });
 
