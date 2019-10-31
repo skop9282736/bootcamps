@@ -7,10 +7,22 @@ const geocoder = require('./../../utils/geocoder');
 // @route GET api/v1/bootcamps?careers[in]=business&location.city=boston&averageCost[lte]=100
 module.exports.findAllBootcamps = asyncHandler(async (req, res) => {
   let query;
+  const reqQery = { ...req.query };
 
-  let queryStr = JSON.stringify(req.query);
+  // fields to exclude
+  const removeFields = ['select'];
+  // loop over removeFields and remove them from the array
+  removeFields.forEach(f => delete reqQery[f]);
+
+  let queryStr = JSON.stringify(reqQery);
   queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, math => `$${math}`);
   query = Bootcamp.find(JSON.parse(queryStr));
+
+  // Select fields
+  if (req.query.select) {
+    const fields = req.query.select.split(',').join(' ');
+    query = query.select(fields);
+  }
 
   const bootcamps = await query;
 
