@@ -16,12 +16,12 @@ function errorHandler(err, req, res, next) {
   }
 
   // Mongoose validation error
-  if ((error.name = 'ValidationError')) {
-    if (Object != undefined || Object != null) {
-      const msg = Object.values(err.errors).map(val => val.message);
-      error = new ErrorResponse(msg, 400);
-    }
-  }
+  // if ((error.name = 'ValidationError')) {
+  //   if (Object != undefined || Object != null) {
+  //     const msg = Object.values(err.errors).map(val => val.message);
+  //     error = new ErrorResponse(msg, 400);
+  //   }
+  // }
 
   res.json({
     success: false,

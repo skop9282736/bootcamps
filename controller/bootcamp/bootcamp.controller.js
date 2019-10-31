@@ -59,10 +59,10 @@ module.exports.findOneBootcamp = asyncHandler(async (req, res, next) => {
 // @desc Get bootcamps within a radius
 // @route GET api/v1/bootcamps/radius/:zipcode/:distance
 module.exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
-  const { zipCode, distance } = req.params;
+  const { zipcode, distance } = req.params;
 
   // Get lang/lat from Geocoder
-  const location = await geocoder.geocode(zipCode);
+  const location = await geocoder.geocode(zipcode);
   const lat = location[0].latitude;
   const long = location[0].longitude;
 
@@ -78,8 +78,8 @@ module.exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
 
   res
     .status(200)
-    .json(200)
-    .send({
+    .status(200)
+    .json({
       success: true,
       count: bootcamps.length,
       data: bootcamps
