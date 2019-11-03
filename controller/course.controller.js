@@ -27,7 +27,7 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc      Get courses
+// @desc      Get single course
 // @route     GET /api/v1/courses/:id
 // @access    Public
 exports.getCourse = async (req, res, next) => {
@@ -38,6 +38,28 @@ exports.getCourse = async (req, res, next) => {
   }
 
   res.status(200).send({
+    success: true,
+    data: course
+  });
+};
+
+// @desc      Add single course
+// @route     POST /api/v1/bootcamps/:bootcampId/courses
+// @access    Public
+exports.addCourse = async (req, res, next) => {
+  req.body.bootcamp = req.params.bootcampId;
+  const bootcamp = await Bootcamp.findById(req.params.bootcampId);
+
+  if (!bootcamp) {
+    return new ErrorResponse(
+      `No bootcamp with id {req.params.bootcampId}`,
+      404
+    );
+  }
+
+  const course = await Course.create(req.body);
+
+  return res.status(200).send({
     success: true,
     data: course
   });
