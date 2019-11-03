@@ -38,7 +38,10 @@ module.exports.findAllBootcamps = async (req, res) => {
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
 
-  query = query.skip(startIndex).limit(limit).populate('courses');
+  query = query
+    .skip(startIndex)
+    .limit(limit)
+    .populate('courses');
 
   const bootcamps = await query;
 
@@ -92,12 +95,13 @@ module.exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 });
 
 module.exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
-  const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
+  const bootcamp = await Bootcamp.findById(req.params.id);
   if (!bootcamp) {
     return res.status(400).send({
       success: false
     });
   }
+  bootcamp.remove();
   return res.status(201).json({ success: true });
 });
 
