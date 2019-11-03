@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const bootcampRoutes = require('./routes/bootcamps.route');
+const coursesRoutes = require('./routes/courses.route');
 const { logger } = require('./middleware/logger.middleware');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
@@ -27,6 +28,7 @@ const port = process.env.PORT || 5000;
 
 // Routes
 app.use('/api/v1/bootcamps', bootcampRoutes);
+app.use('/api/v1/courses', coursesRoutes);
 
 // middlware
 app.use(errorHandler);
