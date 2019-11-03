@@ -1,6 +1,6 @@
-const Bootcamp = require('./../../models/Bootcamp');
-const asyncHandler = require('./../../middleware/asyncHandler.middleware');
-const geocoder = require('./../../utils/geocoder');
+const Bootcamp = require('./../models/Bootcamp');
+const asyncHandler = require('./../middleware/asyncHandler.middleware');
+const geocoder = require('./../utils/geocoder');
 
 // @desc Get bootcamps with or withoput filtering
 // @route GET api/v1/bootcamps
@@ -38,7 +38,7 @@ module.exports.findAllBootcamps = async (req, res) => {
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
 
-  query = query.skip(startIndex).limit(limit);
+  query = query.skip(startIndex).limit(limit).populate('courses');
 
   const bootcamps = await query;
 
