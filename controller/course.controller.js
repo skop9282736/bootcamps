@@ -66,7 +66,7 @@ exports.addCourse = async (req, res, next) => {
 };
 
 // @desc      Update single course
-// @route     POST /api/v1/courses/:id
+// @route     PUT /api/v1/courses/:id
 // @access    private
 exports.updateCourse = async (req, res, next) => {
   let course = await Course.findById(req.params.id);
@@ -77,7 +77,7 @@ exports.updateCourse = async (req, res, next) => {
     );
   }
 
-  course = await course.updateOne(req.params.id, req.body, {
+  course = await Course.updateOne(req.params.id, req.body, {
     new: true,
     runValidators: true
   })
@@ -85,5 +85,25 @@ exports.updateCourse = async (req, res, next) => {
   return res.status(200).send({
     success: true,
     data: course
+  });
+};
+
+// @desc      Delete single course
+// @route     DELETE /api/v1/courses/:id
+// @access    private
+exports.deleteCourse = async (req, res, next) => {
+  let course = await Course.findById(req.params.id);
+
+  if(!course) {
+    return next(
+      new ErrorResponse(`There is no course with the ID: ${req.params.id}`, 404)
+    );
+  }
+
+  await course.remove();
+
+  return res.status(200).send({
+    success: true,
+    data: {}
   });
 };
