@@ -45,7 +45,7 @@ exports.getCourse = async (req, res, next) => {
 
 // @desc      Add single course
 // @route     POST /api/v1/bootcamps/:bootcampId/courses
-// @access    Public
+// @access    private
 exports.addCourse = async (req, res, next) => {
   req.body.bootcamp = req.params.bootcampId;
   const bootcamp = await Bootcamp.findById(req.params.bootcampId);
@@ -58,6 +58,29 @@ exports.addCourse = async (req, res, next) => {
   }
 
   const course = await Course.create(req.body);
+
+  return res.status(200).send({
+    success: true,
+    data: course
+  });
+};
+
+// @desc      Update single course
+// @route     POST /api/v1/courses/:id
+// @access    private
+exports.updateCourse = async (req, res, next) => {
+  let course = await Course.findById(req.params.id);
+
+  if(!course) {
+    return next(
+      new ErrorResponse(`There is no course with the ID: ${req.params.id}`, 404)
+    );
+  }
+
+  course = await course.updateOne(req.params.id, req.body, {
+    new: true,
+    runValidators: true
+  })
 
   return res.status(200).send({
     success: true,
