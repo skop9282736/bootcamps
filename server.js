@@ -6,7 +6,9 @@ const { logger } = require('./middleware/logger.middleware');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
 var colors = require('colors');
+const fileupload = require('express-fileupload');
 const errorHandler = require('./middleware/error');
+const path = require('path');
 
 const app = express();
 
@@ -23,6 +25,12 @@ connectDB();
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+// File upload
+app.use(fileupload());
+
+// set static foalder
+app.use(express.static(path.join(__dirname, 'public')));
 
 const port = process.env.PORT || 5000;
 
